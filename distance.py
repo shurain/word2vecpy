@@ -65,26 +65,25 @@ if __name__ == '__main__':
     try:
         with open(filename, 'rb') as f:
             vocab, feature = load_data(f)
-
-            while True:
-                target = raw_input("Enter word: ")
-                rank = calc_distance(target, vocab, feature)
-                if rank is None:
-                    print("Out of dictionary word!")
-                    continue
-
-                indexed_rank = []
-                for i, r in enumerate(rank):
-                    indexed_rank.append((r, i))
-
-                for r in sorted(indexed_rank, key=lambda x: x[0], reverse=True)[1:N]:
-                    distance, i = r
-                    print("{} {}".format(vocab[i], distance))
-
-                print("")
-
-
     except IOError:
         print("Input file not found\n")
         sys.exit(-1)
+
+    while True:
+        target = raw_input("Enter word: ")
+        rank = calc_distance(target, vocab, feature)
+        if rank is None:
+            print("Out of dictionary word!")
+            continue
+
+        indexed_rank = []
+        for i, r in enumerate(rank):
+            indexed_rank.append((r, i))
+
+        for r in sorted(indexed_rank, key=lambda x: x[0], reverse=True)[1:N]:
+            distance, i = r
+            print("{}\t{:06f}".format(vocab[i], distance))
+
+        print("")
+
 
