@@ -55,6 +55,15 @@ def calc_distance(target, vocab, feature):
     return rank
 
 
+def load_freq(f):
+    freqlist = []
+    for line in f:
+        word, freq = line.split()
+        freqlist.append(freq)
+
+    return freqlist
+
+
 if __name__ == '__main__':
     if len(sys.argv) < 2:
         print("Usage: python distance.py <FILE>\nwhere FILE contains word projections in the BINARY FORMAT\n")
@@ -69,6 +78,16 @@ if __name__ == '__main__':
         print("Input file not found\n")
         sys.exit(-1)
 
+    if len(sys.argv) == 3:
+        vocab_filename = sys.argv[2]
+
+        try:
+            with open(vocab_filename, 'r') as f:
+                freqlist = load_freq(f)
+        except IOError:
+            print("Input vocab file not found\n")
+            sys.exit(-1)
+
     while True:
         target = raw_input("Enter word: ")
         rank = calc_distance(target, vocab, feature)
@@ -80,9 +99,13 @@ if __name__ == '__main__':
         for i, r in enumerate(rank):
             indexed_rank.append((r, i))
 
+        print("word\tdistance\tfrequency")
         for r in sorted(indexed_rank, key=lambda x: x[0], reverse=True)[1:N]:
             distance, i = r
-            print("{}\t{:06f}".format(vocab[i], distance))
+            if len(sys.argv) == 3:
+                print("{}\t{:06f}\t{}".format(vocab[i], distance, freqlist[i]))
+            else:
+                print("{}\t{:06f}".format(vocab[i], distance))
 
         print("")
 

@@ -13,3 +13,4 @@ Usage
 -----
 
     python distance.py [feature-binary]
+    python distance.py [feature-binary] [vocabulary-file]
