@@ -1,7 +1,7 @@
 word2vecpy
 ==========
 
-Python version of word2vec distance calculation.
+Python version of [word2vec](https://code.google.com/p/word2vec/) distance calculation.
 
 Dependency
 ----------
